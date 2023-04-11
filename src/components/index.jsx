@@ -1,6 +1,7 @@
 import React from 'react'
 import './textInvoice.css';
 import TableInvoice from './tableInvoice';
+
 export default function Index() {
 
 //   const [tax, setTax] = useState([{ taxName: 'Tax name 1 (20%)', taxPrice: '20%' },])
@@ -18,16 +19,16 @@ export default function Index() {
 // }
 
   return (
-    <div className='main'>
+    <div className='main-div'>
       <h2 contentEditable="true">Advisory Invoice Generator</h2>
-      <div className="main-header">
-        <div className="leftBox">
+      <div className="main-div-header">
+        <div className="leftSideBox">
           <div className="advisoryContentSection">
             <div className="advisoryContentHeader">
-              <div class="invoiceEditableContent1 companyName" contentEditable="true">Advisory Company Name</div>
-              <div class="invoiceEditableContent2 textRight" contentEditable="true">Invoice</div>
+              <div className="invoiceEditableContent1 companyName" contentEditable="true">Advisory Company Name</div>
+              <div className="invoiceEditableContent2 textRight" contentEditable="true">Invoice</div>
             </div>
-            <div class="invoiceEditableItem">
+            <div className="invoiceEditableItem">
 
               <div className="address">
                 <div contentEditable="true">123 your street</div>
@@ -55,56 +56,30 @@ export default function Index() {
             </div>
 
           </div>
-          <div class="invoice-divider"></div>
-          <div className="greetings" contentEditable="true">
+          <hr/>
+          <div className="invoiceMessage" contentEditable="true">
             <span >Dear Ms. Jane Doe</span> <br /> <br />
             <span>Please find below a cost breakdown for the recent work completed . Please make payment
               convininence, and do not hesitate to contact me with any questions.
             </span>
             <br /><br />
             <span>Many Thanks</span> <br />
-            <span>Nazir Ansari</span>
+            <span>Mayank Saraswat/Nazir Ansari</span>
 
           </div>
-          {/* 
-          <table className='invoiceTable'>
-            <thead>
-              <tr>
-                <th className='number'>#</th>
-                <th className='desccription' contentEditable="true">Item Description</th>
-                <th className='quantity' contentEditable="true">Quantity</th>
-                <th contentEditable="true">Unit price (rs)</th>
-                <th contentEditable="true">Line total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className='number' contentEditable="true">1</td>
-                <td className='desccription' contentEditable="true">item</td>
-                <td className='quantity' contentEditable="true">1</td>
-                <td>100</td>
-                <td><div className='totalCell' ><span>₹ 100</span>
-                  <span className='remove'>X</span></div></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div className="addNewItem">
-            <span contentEditable="true">+ Add Line Item</span>
-          </div> */}
 
           <TableInvoice />
 
           {/* <div className="invoiceTotal">
             <div className="subtotal">
-              <div className="subtotalInner" >Sub Total</div>
-              <span className='subtotalInner1'>₹ 100</span>
+              <div className="subtotalLeft" >Sub Total</div>
+              <span className='subtotalValue'>₹ 100</span>
             </div>
            
               {tax.map((taxRow) => (
                 <div className="tax">
-                <div className="salesTax" contentEditable="true">{taxRow.taxName}</div>
-                <span className='salesTax1'>{taxRow.taxPrice}
+                <div className="taxName" contentEditable="true">{taxRow.taxName}</div>
+                <span className='taxValue'>{taxRow.taxPrice}
                 <span className='remove' onClick={deleteTaxRows}>X</span></span>
                 </div>
               ))} */}
@@ -117,13 +92,11 @@ export default function Index() {
           </div> */}
 
           <div className="grandTotal">
-            <div className="invoiceGrandTotal">
-              Total
-            </div>
+            <div className="invoiceGrandTotal">Total</div>
             <span>₹ 120</span>
           </div>
 
-          <div class="textarea"  contentEditable="true">
+          <div className="greetings"  contentEditable="true">
             <span>Many thanks! I look forward to doing business with you again in due course. </span>
             <br /><span></span>
             <br />
@@ -131,9 +104,8 @@ export default function Index() {
 
         </div>
 
-
-        <div className="rightBox">
-          <button class='rightBoxBtn'>Download this invoice</button>
+        <div className="rightSideBox">
+          <button className='rightBoxDownloadBtn'>Download this invoice</button>
         </div>
       </div>
     </div>
