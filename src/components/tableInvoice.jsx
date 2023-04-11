@@ -44,19 +44,6 @@ export default function TableInvoice() {
     });
   };
 
-  useEffect(() => {
-    // Calculate the total lineTotal whenever the data changes
-    const newsubTotal = tableData.reduce((acc, currentElement) => acc + currentElement.quantity * currentElement.unitPrice, 0);
-    const newGst = tax.reduce((acc, currentElement) => acc + currentElement.taxPrice, 0);
-    console.log(newGst,"check kro")
-    setsubTotal(newsubTotal);
-    console.log(subTotal,"hello check subtotal check")
-    setGst(newsubTotal*newGst);
-    console.log(gst,"hello check gst")
-    setGrandTotal(gst+newsubTotal)
-    console.log(grandTotal,"check grandtotal")
-
-  });
 
 
   // useEffect(()=>{
@@ -84,6 +71,32 @@ export default function TableInvoice() {
     rows.splice(index, 1);
     setTax(rows);
   }
+
+  useEffect(() => {
+    // Calculate the total lineTotal whenever the data changes
+    const newsubTotal = tableData.reduce((acc, currentElement) => acc + currentElement.quantity * currentElement.unitPrice, 0);
+    const newGst = tax.reduce((acc, currentElement) => acc + currentElement.taxPrice, 0);
+    console.log(newGst,"check kro")
+    setsubTotal(newsubTotal);
+    console.log(subTotal,"hello check subtotal check")
+    setGst(Math.trunc(newsubTotal*newGst));
+    console.log(gst,"hello check gst")
+  
+
+    // const updateTaxPrice = tax.map(tax => {
+    //     return { ...tax, taxPrice: gst };
+    //     // return tax;
+    //   }
+    // )
+     
+
+    // setTax();
+
+    setGrandTotal(gst+newsubTotal)
+    console.log(grandTotal,"check grandtotal")
+
+  });
+
   return (
     <>
       <table className='invoiceTable'>
