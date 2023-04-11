@@ -1,100 +1,146 @@
-import React,{useState} from 'react'
+import React, { useState, useEffect } from 'react'
 
 export default function TableInvoice() {
-    const [tableData, setTableData] = useState([
-        {  itemDescription: 'item', quantity: 1 , unitPrice:100, lineTotal:100,},]
-        // {  itemDescription: 'item', quantity: 1 , unitPrice:1, lineTotal:100,},
-      // ].map((row, index) => ({ ...row, id: index }))
-      );
-      // tableData.length++;
-    
-      const [newRow, setNewRow] = useState({ itemDescription: 'item', quantity: 2 , unitPrice: 100,lineTotal:100});
+  const [tableData, setTableData] = useState([
+    { itemDescription: 'item', quantity: 1, unitPrice: 100, lineTotal: 100, },
+  ].map((row, index) => ({ ...row, id: index }))
+  );
+  const [newRow, setNewRow] = useState({ id: tableData.length, itemDescription: 'item', quantity: 2, unitPrice: 100, lineTotal: 200 });
 
-      const handleAddRow=()=> {
-        console.log(tableData.length);
-        setTableData([...tableData, newRow]);
-        tableData.length++;
-        setNewRow({ itemDescription: 'item', quantity: 3 , unitPrice: 100 ,lineTotal:100})
-        console.log(newRow)
+  const handleAddRow = () => {
+    console.log(tableData.length);
+    setTableData([...tableData, newRow]);
+    setNewRow({ id: tableData.length, itemDescription: 'item', quantity: 3, unitPrice: 100, lineTotal: 300 })
+    console.log(newRow)
+  }
+
+  const [total, setTotal] = useState(100)
+  const [gst, setGst] = useState(0)
+
+  const deleteTableRows = (index) => {
+    const rows = [...tableData];
+
+    console.log(rows)
+    const deleteValue = rows.splice(--index, 1)
+    console.log("deleteValue", deleteValue);
+    setTableData(rows);
+  }
+
+  const handleChange = (index, key, value) => {
+    console.log(index);
+    if (key != "itemDescription") {
+      var val = parseInt(value)
+    }
+    else {
+      val = value;
+    }
+
+    setTableData((prevData) => {
+      const newRow = { ...prevData[index], [key]: val };
+
+      if (key === 'unitPrice' || key === 'quantity') {
+        newRow.lineTotal = newRow.unitPrice * newRow.quantity;
       }
 
 
+      const newData = [...prevData];
+      newData[index] = newRow;
+      console.log(newData);
+      return newData;
+    });
+  };
 
-      const deleteTableRows = (index)=>{
-        const rows = [...tableData];
-        
-        // index1=index;
-        // --index;
-        console.log(index,"hii")
-        // rows.splice(index-1,0);
-        console.log(rows)
-       const deleteValue=rows.splice(--index,1)
-       console.log("deleteValue",deleteValue);
-        setTableData(rows);
-   }
+  useEffect(() => {
+    // Calculate the total age whenever the data changes
+    const newTotal = tableData.reduce((acc, cur) => acc + cur.quantity * cur.unitPrice, 0);
+    setTotal(newTotal);
+    // const rows={...tableData,setTotal}
+    // setTableData([...tableData,total]);
+    // setGst((total*20)/100);
+    gstCalculate(total)
 
-  // const handleDelete = (id) => {
-  //   console.log(id)
-  //   const rows = [...tableData];
-  //   console.log(rows);
-  //   setTableData(rows.filter((row) => row.id !== id));
-  // };
-   const updateTableRows =(event,index)=>{
-    event.preventDefault()
+  }, [tableData]);
 
-      const name = event.target.name.value
-      const email = event.target.email.value
-      const mobile = event.target.contact.value
-    const rows=[...tableData];
-    // const total = rows[index].lineTotal;
-    const quantity = rows[index].quantity;
-    const price=rows[index].price;
-     rows[index]=price * quantity;
-   }
-      return (
-        <>
-        <table className='invoiceTable'>
-          <thead>
-            <tr>
-              <th className='number'>#</th>
-              <th className='desccription'>Item Description</th>
-              <th className='quantity'>Quantity</th>
-              <th>Unit Price(₹)</th>
-              <th>Line total</th>
+  const gstCalculate = (total) => {
+    setGst((total*20)/100);
+  }
 
+  // useEffect(()=>{
+  //   const newTotal = tableData.reduce((acc, cur) => acc + cur.quantity * cur.unitPrice , 0);
+  //   setGst((newTotal*20)/100);
+  // },[gst])
+
+  const [tax, setTax] = useState([{ taxName: 'Tax name 1 (20%)', taxPrice: '20%' },])
+  const [newTax, setNewTax] = useState({ taxName: 'Tax name 1 (20%)', taxPrice: '20%' })
+
+  const addTax = () => {
+    setTax([...tax, newTax]);
+    setNewTax({ taxName: 'Tax name 1 (20%)', taxPrice: '20%' })
+  }
+
+  const deleteTaxRows = (index) => {
+    const rows = [...tax];
+    rows.splice(index, 1);
+    setTax(rows);
+  }
+  return (
+    <>
+      <table className='invoiceTable'>
+        <thead>
+          <tr>
+            <th className='number'>#</th>
+            <th className='desccription'>Item Description</th>
+            <th className='quantity'>Quantity</th>
+            <th>Unit Price(₹)</th>
+            <th>Line total</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map && tableData.map((row, i) => (
+            <tr key={i}>
+              <td className='number'>{i}</td>
+              <td
+                className='desccription'
+                contentEditable="true"
+                onBlur={(e) => handleChange(i, 'itemDescription', e.target.textContent)} >
+                {row.itemDescription}
+              </td>
+              <td
+                className='quantity'
+                contentEditable="true"
+                onBlur={(e) => handleChange(i, 'quantity', e.target.textContent)}>{row.quantity}</td>
+              <td contentEditable="true" onBlur={(e) => handleChange(i, 'unitPrice', e.target.textContent)}>{row.unitPrice}</td>
+              <td><div className='totalCell'
+              ><span>{"₹ "}{row.lineTotal}</span>
+                <span className='remove' onClick={() => deleteTableRows(i)}>X</span></div></td>
             </tr>
-          </thead>
-          <tbody>
-            {tableData.map && tableData.map((row,i) => (
-              <tr key={i}>
-                <td className='number'>{++i}</td>
-                <td className='desccription' contentEditable="true">{row.itemDescription}</td>
-                <td className='quantity' contentEditable="true" onChange={updateTableRows}>{row.quantity}</td>
-                <td contentEditable="true" onChange={updateTableRows}>{row.unitPrice}</td>
-                <td><div className='totalCell' ><span>{"₹ "}{row.lineTotal}</span>
-                  <span className='remove' onClick={()=>deleteTableRows(i)}>X</span></div></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="addNewItem">
-            <span onClick={handleAddRow}>+ Add Line Item</span>
+          ))}
+        </tbody>
+      </table>
+      <div className="addNewItem">
+        <span onClick={handleAddRow}>+ Add Line Item</span>
+      </div>
+
+      <div className="invoiceTotal">
+        <div className="subtotal">
+          <div className="subtotalInner" >Sub Total</div>
+          <span className='subtotalInner1'>₹ {total}</span>
+        </div>
+
+        {tax.map((taxRow) => (
+          <div className="tax">
+            <div className="salesTax" contentEditable="true">{taxRow.taxName}</div>
+            <span className='salesTax1'>{gst}
+              <span className='remove' onClick={deleteTaxRows}>X</span></span>
           </div>
-        {/* <form>
-          <label>
-            ID:
-            <input type="text" value={newRow.id} onChange={(e) => setNewRow({ ...newRow, id: e.target.value })} />
-          </label>
-          <label>
-            Name:
-            <input type="text" value={newRow.name} onChange={(e) => setNewRow({ ...newRow, name: e.target.value })} />
-          </label>
-          <label>
-            Age:
-            <input type="text" value={newRow.age} onChange={(e) => setNewRow({ ...newRow, age: e.target.value })} />
-          </label>
-        </form> */}
-        </>
-      );
-    }
-    
+        ))}
+      </div>
+
+      <div className="addNewItem">
+        <span onClick={addTax}>+ Add tax</span>
+      </div>
+    </>
+  );
+}
+

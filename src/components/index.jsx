@@ -1,21 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './textInvoice.css';
 import TableInvoice from './tableInvoice';
 export default function Index() {
 
-  const [tax, setTax] = useState([{ taxName: 'Tax name 1 (20%)', taxPrice: '20%' },])
-  const [newTax, setNewTax] = useState({ taxName: 'Tax name 1 (20%)', taxPrice: '20%' })
+//   const [tax, setTax] = useState([{ taxName: 'Tax name 1 (20%)', taxPrice: '20%' },])
+//   const [newTax, setNewTax] = useState({ taxName: 'Tax name 1 (20%)', taxPrice: '20%' })
 
-  const addTax = () => {
-    setTax([...tax, newTax]);
-    setNewTax({ taxName: 'Tax name 1 (20%)', taxPrice: '20%' })
-  }
+//   const addTax = () => {
+//     setTax([...tax, newTax]);
+//     setNewTax({ taxName: 'Tax name 1 (20%)', taxPrice: '20%' })
+//   }
 
-  const deleteTaxRows = (index)=>{
-    const rows = [...tax];
-    rows.splice(index,1);
-    setTax(rows);
-}
+//   const deleteTaxRows = (index)=>{
+//     const rows = [...tax];
+//     rows.splice(index,1);
+//     setTax(rows);
+// }
 
   return (
     <div className='main'>
@@ -95,7 +95,7 @@ export default function Index() {
 
           <TableInvoice />
 
-          <div className="invoiceTotal">
+          {/* <div className="invoiceTotal">
             <div className="subtotal">
               <div className="subtotalInner" >Sub Total</div>
               <span className='subtotalInner1'>₹ 100</span>
@@ -107,14 +107,14 @@ export default function Index() {
                 <span className='salesTax1'>{taxRow.taxPrice}
                 <span className='remove' onClick={deleteTaxRows}>X</span></span>
                 </div>
-              ))}
+              ))} */}
               {/* <div className="salesTax" contentEditable="true">Tax name 1 (20%)</div>
               <span className='salesTax1' contentEditable="true">₹ 20</span> */}
             
-          </div>
-          <div className="addNewItem">
+          {/* </div> */}
+          {/* <div className="addNewItem">
             <span onClick={addTax}>+ Add tax</span>
-          </div>
+          </div> */}
 
           <div className="grandTotal">
             <div className="invoiceGrandTotal">
