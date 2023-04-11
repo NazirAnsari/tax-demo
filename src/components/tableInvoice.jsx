@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react'
 
 export default function TableInvoice() {
+
+  const [subTotal, setsubTotal] = useState(100)
+  const [gst, setGst] = useState(0)
+  const [grandTotal, setGrandTotal] = useState(0)
+  
+  const [tax, setTax] = useState([{ id: 0, taxName: 'Tax name 1 (20%)', taxPrice: 0.2 },])
+  const [newTax, setNewTax] = useState({ id: 1, taxName: 'Tax name 1 (20%)', taxPrice: 0.2 })
+
+  const [pc, setpc] = useState(20)
+
   const [tableData, setTableData] = useState([
-    { itemDescription: 'item', quantity: 1, unitPrice: 100, lineTotal: 100, },
-  ].map((row, index) => ({ ...row, id: index }))
+    { id: 0, itemDescription: 'item', quantity: 1, unitPrice: 100, lineTotal: 100, },
+  ]
   );
   const [newRow, setNewRow] = useState({ id: tableData.length, itemDescription: 'item', quantity: 2, unitPrice: 100, lineTotal: 200 });
 
@@ -12,14 +22,12 @@ export default function TableInvoice() {
     setNewRow({ id: tableData.length, itemDescription: 'item', quantity: 3, unitPrice: 100, lineTotal: 300 })
   }
 
-  const [subTotal, setsubTotal] = useState(100)
-  const [gst, setGst] = useState(0)
-  const [grandTotal,setGrandTotal]=useState(0)
 
+
+  //delete table rows
   const deleteTableRows = (index) => {
     const rows = [...tableData];
-    const deleteValue = rows.splice(index, 1)
-    console.log("deleteValue", deleteValue);
+    rows.splice(index, 1)
     setTableData(rows);
   }
 
@@ -44,26 +52,8 @@ export default function TableInvoice() {
     });
   };
 
-
-
-  // useEffect(()=>{
-  //   const newTotal = tableData.reduce((acc, cur) => acc + cur.quantity * cur.unitPrice , 0);
-  //   setGst((newTotal*20)/100);
-  //   setGrandTotal(gst+newTotal)
-  // },[tableData,gst,grandTotal])
-
-  // useEffect(()=>{
-  //   const newTotal = tableData.reduce((acc, cur) => acc + cur.quantity * cur.unitPrice , 0);
-  
-  // },[gst,grandTotal])
-
-  const [tax, setTax] = useState([{ taxName: 'Tax name 1 (20%)', taxPrice:0.2},])
-  const [newTax, setNewTax] = useState({ taxName: 'Tax name 1 (20%)', taxPrice:0.2 })
-
   const addTax = () => {
     setTax([...tax, newTax]);
-    setNewTax({ taxName: 'Tax name 1 (20%)',taxPrice:0.2 })
-    console.log(tax)
   }
 
   const deleteTaxRows = (index) => {
@@ -76,26 +66,20 @@ export default function TableInvoice() {
     // Calculate the total lineTotal whenever the data changes
     const newsubTotal = tableData.reduce((acc, currentElement) => acc + currentElement.quantity * currentElement.unitPrice, 0);
     const newGst = tax.reduce((acc, currentElement) => acc + currentElement.taxPrice, 0);
-    console.log(newGst,"check kro")
+    console.log(newGst, "1111 check kro")
     setsubTotal(newsubTotal);
-    console.log(subTotal,"hello check subtotal check")
-    setGst(Math.trunc(newsubTotal*newGst));
-    console.log(gst,"hello check gst")
-  
+    console.log(subTotal, "hello check subtotal check")
+    setGst(newsubTotal * newGst);
+    console.log(gst, "1111 hello check gst")
 
-    // const updateTaxPrice = tax.map(tax => {
-    //     return { ...tax, taxPrice: gst };
-    //     // return tax;
-    //   }
-    // )
-     
+    // setTax(updateTaxPrice);
+    setpc((newsubTotal * 20) / 100);
 
-    // setTax();
+    setGrandTotal(gst + newsubTotal)
 
-    setGrandTotal(gst+newsubTotal)
-    console.log(grandTotal,"check grandtotal")
+  }, [tableData, tax, subTotal, gst, grandTotal]);
 
-  });
+  let tableDataIndex = 0;
 
   return (
     <>
@@ -113,7 +97,7 @@ export default function TableInvoice() {
         <tbody>
           {tableData.map && tableData.map((row, i) => (
             <tr key={i}>
-              <td className='number'>{i}</td>
+              <td className='number'>{++tableDataIndex}</td>
               <td
                 className='description'
                 contentEditable="true"
@@ -145,7 +129,7 @@ export default function TableInvoice() {
         {tax.map((taxRow) => (
           <div className="tax">
             <div className="taxName" contentEditable="true">{taxRow.taxName}</div>
-            <span className='taxValue'>₹{gst}
+            <span className='taxValue'>₹{pc}
               <span className='remove' onClick={deleteTaxRows}>X</span></span>
           </div>
         ))}
@@ -154,11 +138,10 @@ export default function TableInvoice() {
       <div className="addNewItem">
         <span onClick={addTax}>+ Add tax</span>
       </div>
-      <div className="grandTotal"> 
-            <div className="invoiceGrandTotal" contentEditable="true">Total</div>
-            <span>₹ {grandTotal}</span>
-          </div>
+      <div className="grandTotal">
+        <div className="invoiceGrandTotal" contentEditable="true">Total</div>
+        <span>₹ {grandTotal}</span>
+      </div>
     </>
   );
 }
-
