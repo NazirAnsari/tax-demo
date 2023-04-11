@@ -55,12 +55,6 @@ export default function Index() {
           </div>
 
           <TableInvoice />
-
-          <div className="grandTotal">
-            <div className="invoiceGrandTotal" contentEditable="true">Total</div>
-            <span>₹ 120</span>
-          </div>
-
           <div className="greetings"  contentEditable="true">
             <span>Many thanks! I look forward to doing business with you again in due course. </span>
             <br /><span></span>

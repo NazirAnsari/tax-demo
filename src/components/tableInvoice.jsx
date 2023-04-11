@@ -12,12 +12,14 @@ export default function TableInvoice() {
     setNewRow({ id: tableData.length, itemDescription: 'item', quantity: 3, unitPrice: 100, lineTotal: 300 })
   }
 
-  const [total, setTotal] = useState(100)
+  const [subTotal, setsubTotal] = useState(100)
   const [gst, setGst] = useState(0)
+  const [grandTotal,setGrandTotal]=useState(0)
 
   const deleteTableRows = (index) => {
     const rows = [...tableData];
-    const deleteValue = rows.splice(--index, 1)
+    const deleteValue = rows.splice(index, 1)
+    console.log("deleteValue", deleteValue);
     setTableData(rows);
   }
 
@@ -43,31 +45,38 @@ export default function TableInvoice() {
   };
 
   useEffect(() => {
-    // Calculate the total age whenever the data changes
-    const newTotal = tableData.reduce((acc, cur) => acc + cur.quantity * cur.unitPrice, 0);
-    setTotal(newTotal);
-    // const rows={...tableData,setTotal}
-    // setTableData([...tableData,total]);
-    // setGst((total*20)/100);
-    gstCalculate(total)
+    // Calculate the total lineTotal whenever the data changes
+    const newsubTotal = tableData.reduce((acc, currentElement) => acc + currentElement.quantity * currentElement.unitPrice, 0);
+    const newGst = tax.reduce((acc, currentElement) => acc + currentElement.taxPrice, 0);
+    console.log(newGst,"check kro")
+    setsubTotal(newsubTotal);
+    console.log(subTotal,"hello check subtotal check")
+    setGst(newsubTotal*newGst);
+    console.log(gst,"hello check gst")
+    setGrandTotal(gst+newsubTotal)
+    console.log(grandTotal,"check grandtotal")
 
-  }, [tableData]);
+  });
 
-  const gstCalculate = (total) => {
-    setGst((total*20)/100);
-  }
 
   // useEffect(()=>{
   //   const newTotal = tableData.reduce((acc, cur) => acc + cur.quantity * cur.unitPrice , 0);
   //   setGst((newTotal*20)/100);
-  // },[gst])
+  //   setGrandTotal(gst+newTotal)
+  // },[tableData,gst,grandTotal])
 
-  const [tax, setTax] = useState([{ taxName: 'Tax name 1 (20%)', taxPrice: '20%' },])
-  const [newTax, setNewTax] = useState({ taxName: 'Tax name 1 (20%)', taxPrice: '20%' })
+  // useEffect(()=>{
+  //   const newTotal = tableData.reduce((acc, cur) => acc + cur.quantity * cur.unitPrice , 0);
+  
+  // },[gst,grandTotal])
+
+  const [tax, setTax] = useState([{ taxName: 'Tax name 1 (20%)', taxPrice:0.2},])
+  const [newTax, setNewTax] = useState({ taxName: 'Tax name 1 (20%)', taxPrice:0.2 })
 
   const addTax = () => {
     setTax([...tax, newTax]);
-    setNewTax({ taxName: 'Tax name 1 (20%)', taxPrice: '20%' })
+    setNewTax({ taxName: 'Tax name 1 (20%)',taxPrice:0.2 })
+    console.log(tax)
   }
 
   const deleteTaxRows = (index) => {
@@ -104,7 +113,7 @@ export default function TableInvoice() {
                 onBlur={(e) => handleChange(i, 'quantity', e.target.textContent)}>{row.quantity}</td>
               <td contentEditable="true" onBlur={(e) => handleChange(i, 'unitPrice', e.target.textContent)}>{row.unitPrice}</td>
               <td><div className='totalCell'
-              ><span>{"₹ "}{row.lineTotal}</span>
+              ><span>₹{row.lineTotal}</span>
                 <span className='remove' onClick={() => deleteTableRows(i)}>X</span></div></td>
             </tr>
           ))}
@@ -117,13 +126,13 @@ export default function TableInvoice() {
       <div className="invoiceTotal">
         <div className="subtotal">
           <div className="subtotalLeft" contentEditable="true">Sub Total</div>
-          <span className='subtotalValue'>₹ {total}</span>
+          <span className='subtotalValue'>₹ {subTotal}</span>
         </div>
 
         {tax.map((taxRow) => (
           <div className="tax">
             <div className="taxName" contentEditable="true">{taxRow.taxName}</div>
-            <span className='taxValue'>{gst}
+            <span className='taxValue'>₹{gst}
               <span className='remove' onClick={deleteTaxRows}>X</span></span>
           </div>
         ))}
@@ -132,6 +141,10 @@ export default function TableInvoice() {
       <div className="addNewItem">
         <span onClick={addTax}>+ Add tax</span>
       </div>
+      <div className="grandTotal"> 
+            <div className="invoiceGrandTotal" contentEditable="true">Total</div>
+            <span>₹ {grandTotal}</span>
+          </div>
     </>
   );
 }
