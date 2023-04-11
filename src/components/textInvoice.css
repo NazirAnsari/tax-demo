@@ -1,11 +1,10 @@
-.main {
-    width: 95%;
+.main-div {
+    width: 90%;
     margin: auto;
     background-color: rgb(230, 247, 255);
     font-family: none;
 }
-
-.leftBox {
+.leftSideBox {
     width: 60%;
     display: inline-block;
     vertical-align: top;
@@ -14,7 +13,7 @@
     padding: 25px;
 }
 
-.rightBox {
+.rightSideBox {
     width: 20%;
     display: inline-block;
     background-color: #ffffff;
@@ -24,13 +23,19 @@
     text-align: center;
 }
 
-.rightBoxBtn {
-    background-color: #005eb6;
+.rightBoxDownloadBtn {
+    background-color: #1a73e8;
     cursor: pointer;
     color: white;
     width: 100%;
     font-size: 1em;
     padding: 6px;
+    border-radius: 3px;
+    border: none;
+}
+.rightBoxDownloadBtn:hover{
+    background-color: #188038;
+    transform: translateY(2px);
 }
 
 .advisoryContentHeader {
@@ -57,7 +62,6 @@
     margin-right: 0px;
     font-weight: bold;
     font-size: 24px;
-    /* margin-left: 60px; */
     vertical-align: top;
 }
 
@@ -78,7 +82,6 @@
 }
 
 .address div {
-    /* max-width: 200px; */
     line-height: 25px;
 }
 
@@ -106,13 +109,7 @@
     width: 40%;
 }
 
-.invoice-divider {
-    height: 1px;
-    background-color: #d9d9d9;
-    margin: 16px 0;
-}
-
-.greetings {
+.invoiceMessage {
     margin-left: 10px;
 }
 
@@ -134,10 +131,6 @@ table .description {
     width: auto;
 }
 
-/* table thead tr {
-    border-bottom: 1px solid #d9d9d9;
-} */
-
 table thead tr th {
     font-size: 14px;
     line-height: 20px;
@@ -148,7 +141,6 @@ table thead tr th {
 
 .invoice-table th {
     padding: 8px;
-    /* text-align: left; */
     width: 110px;
 }
 
@@ -180,16 +172,16 @@ td {
     width: 100%;
 }
 
-.subtotalInner {
-    font-size: 14px;
+.subtotalLeft {
+    font-size: 16px;
     line-height: 20px;
     font-weight: 600;
     position: relative;
     width: 82%;
     display: inline-block;
 }
-.subtotalInner1 {
-    font-size: 14px;
+.subtotalValue {
+    font-size: 16px;
     line-height: 20px;
     font-weight: 600;
     position: relative;
@@ -200,8 +192,8 @@ td {
     width: 100%;
 }
 
-.salesTax{
-    font-size: 14px;
+.taxName{
+    font-size: 16px;
     line-height: 20px;
     font-weight: 600;
     position: relative;
@@ -209,8 +201,8 @@ td {
     display: inline-block;  
 }
 
-.salesTax1{
-    font-size: 14px;
+.taxValue{
+    font-size: 16px;
     line-height: 20px;
     font-weight: 600;
     position: relative;
@@ -222,7 +214,7 @@ td {
 }
 
 .invoiceGrandTotal{
-    font-size: 14px;
+    font-size: 16px;
     line-height: 20px;
     font-weight: 600;
     position: relative;
@@ -230,17 +222,16 @@ td {
     display: inline-block;  
 }
 .grandTotal span{
-    font-size: 14px;
+    font-size: 16px;
     line-height: 20px;
     font-weight: 600;
     position: relative;
 }
 
-.textarea{
+.greetings{
     margin-top: 24px;
 }
 
 th{
-
     border-bottom: 1px solid rgb(76, 73, 73);
 }
