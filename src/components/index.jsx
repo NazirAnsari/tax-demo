@@ -4,20 +4,6 @@ import TableInvoice from './tableInvoice';
 
 export default function Index() {
 
-//   const [tax, setTax] = useState([{ taxName: 'Tax name 1 (20%)', taxPrice: '20%' },])
-//   const [newTax, setNewTax] = useState({ taxName: 'Tax name 1 (20%)', taxPrice: '20%' })
-
-//   const addTax = () => {
-//     setTax([...tax, newTax]);
-//     setNewTax({ taxName: 'Tax name 1 (20%)', taxPrice: '20%' })
-//   }
-
-//   const deleteTaxRows = (index)=>{
-//     const rows = [...tax];
-//     rows.splice(index,1);
-//     setTax(rows);
-// }
-
   return (
     <div className='main-div'>
       <h2 contentEditable="true">Advisory Invoice Generator</h2>
@@ -70,29 +56,8 @@ export default function Index() {
 
           <TableInvoice />
 
-          {/* <div className="invoiceTotal">
-            <div className="subtotal">
-              <div className="subtotalLeft" >Sub Total</div>
-              <span className='subtotalValue'>₹ 100</span>
-            </div>
-           
-              {tax.map((taxRow) => (
-                <div className="tax">
-                <div className="taxName" contentEditable="true">{taxRow.taxName}</div>
-                <span className='taxValue'>{taxRow.taxPrice}
-                <span className='remove' onClick={deleteTaxRows}>X</span></span>
-                </div>
-              ))} */}
-              {/* <div className="salesTax" contentEditable="true">Tax name 1 (20%)</div>
-              <span className='salesTax1' contentEditable="true">₹ 20</span> */}
-            
-          {/* </div> */}
-          {/* <div className="addNewItem">
-            <span onClick={addTax}>+ Add tax</span>
-          </div> */}
-
           <div className="grandTotal">
-            <div className="invoiceGrandTotal">Total</div>
+            <div className="invoiceGrandTotal" contentEditable="true">Total</div>
             <span>₹ 120</span>
           </div>
 

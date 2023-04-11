@@ -8,10 +8,8 @@ export default function TableInvoice() {
   const [newRow, setNewRow] = useState({ id: tableData.length, itemDescription: 'item', quantity: 2, unitPrice: 100, lineTotal: 200 });
 
   const handleAddRow = () => {
-    console.log(tableData.length);
     setTableData([...tableData, newRow]);
     setNewRow({ id: tableData.length, itemDescription: 'item', quantity: 3, unitPrice: 100, lineTotal: 300 })
-    console.log(newRow)
   }
 
   const [total, setTotal] = useState(100)
@@ -19,15 +17,11 @@ export default function TableInvoice() {
 
   const deleteTableRows = (index) => {
     const rows = [...tableData];
-
-    console.log(rows)
     const deleteValue = rows.splice(--index, 1)
-    console.log("deleteValue", deleteValue);
     setTableData(rows);
   }
 
   const handleChange = (index, key, value) => {
-    console.log(index);
     if (key != "itemDescription") {
       var val = parseInt(value)
     }
@@ -42,10 +36,8 @@ export default function TableInvoice() {
         newRow.lineTotal = newRow.unitPrice * newRow.quantity;
       }
 
-
       const newData = [...prevData];
       newData[index] = newRow;
-      console.log(newData);
       return newData;
     });
   };
@@ -89,9 +81,9 @@ export default function TableInvoice() {
         <thead>
           <tr>
             <th className='number'>#</th>
-            <th className='desccription'>Item Description</th>
+            <th className='description'>Item Description</th>
             <th className='quantity'>Quantity</th>
-            <th>Unit Price(₹)</th>
+            <th contentEditable="true">Unit Price(₹)</th>
             <th>Line total</th>
 
           </tr>
@@ -101,7 +93,7 @@ export default function TableInvoice() {
             <tr key={i}>
               <td className='number'>{i}</td>
               <td
-                className='desccription'
+                className='description'
                 contentEditable="true"
                 onBlur={(e) => handleChange(i, 'itemDescription', e.target.textContent)} >
                 {row.itemDescription}
@@ -124,14 +116,14 @@ export default function TableInvoice() {
 
       <div className="invoiceTotal">
         <div className="subtotal">
-          <div className="subtotalInner" >Sub Total</div>
-          <span className='subtotalInner1'>₹ {total}</span>
+          <div className="subtotalLeft" contentEditable="true">Sub Total</div>
+          <span className='subtotalValue'>₹ {total}</span>
         </div>
 
         {tax.map((taxRow) => (
           <div className="tax">
-            <div className="salesTax" contentEditable="true">{taxRow.taxName}</div>
-            <span className='salesTax1'>{gst}
+            <div className="taxName" contentEditable="true">{taxRow.taxName}</div>
+            <span className='taxValue'>{gst}
               <span className='remove' onClick={deleteTaxRows}>X</span></span>
           </div>
         ))}
