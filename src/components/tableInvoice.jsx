@@ -5,21 +5,24 @@ export default function TableInvoice() {
   const [subTotal, setsubTotal] = useState(100)
   const [gst, setGst] = useState(0)
   const [grandTotal, setGrandTotal] = useState(0)
-  
-  const [tax, setTax] = useState([{ id: 0, taxName: 'Tax name 1 (20%)', taxPrice: 0.2 },])
-  const [newTax, setNewTax] = useState({ id: 1, taxName: 'Tax name 1 (20%)', taxPrice: 0.2 })
 
-  const [pc, setpc] = useState(20)
+  const [tax, setTax] = useState([{ id: 0, taxName: 'Tax name 1 ', taxValue: 20, taxPrice: 0.2 },])
+  const newTax = ({ taxName: 'Tax name 1 ', taxValue: 20, taxPrice: 0.2 })
+
+  // const [pc, setpc] = useState(20)
 
   const [tableData, setTableData] = useState([
     { id: 0, itemDescription: 'item', quantity: 1, unitPrice: 100, lineTotal: 100, },
   ]
   );
-  const [newRow, setNewRow] = useState({ id: tableData.length, itemDescription: 'item', quantity: 2, unitPrice: 100, lineTotal: 200 });
+  const newRow = ({ id: tableData.length, itemDescription: 'item', quantity: 1, unitPrice: 100, lineTotal: 100 });
+
+
+
+  //function implemented from here
 
   const handleAddRow = () => {
     setTableData([...tableData, newRow]);
-    setNewRow({ id: tableData.length, itemDescription: 'item', quantity: 3, unitPrice: 100, lineTotal: 300 })
   }
 
 
@@ -29,6 +32,18 @@ export default function TableInvoice() {
     const rows = [...tableData];
     rows.splice(index, 1)
     setTableData(rows);
+  }
+
+
+
+  const addTax = () => {
+    setTax([...tax, newTax]);
+  }
+
+  const deleteTaxRows = (index) => {
+    const rows = [...tax];
+    rows.splice(index, 1);
+    setTax(rows);
   }
 
   const handleChange = (index, key, value) => {
@@ -52,14 +67,22 @@ export default function TableInvoice() {
     });
   };
 
-  const addTax = () => {
-    setTax([...tax, newTax]);
-  }
+  const handleChangeTax = (index, key, value) => {
+    console.log("11112 handleChangeTax", index, key, value, subTotal)
+    setTax((prevData) => {
+      const newRow = { ...prevData[index], [key]: value };
 
-  const deleteTaxRows = (index) => {
-    const rows = [...tax];
-    rows.splice(index, 1);
-    setTax(rows);
+      if (key === 'taxValue') {
+        newRow.taxPrice = (subTotal * value) / 100;
+        newRow.taxPrice=newRow.taxPrice/100;
+      }
+      console.log("11112 again hii",newRow.taxPrice)
+      // setpc(newRow.taxPrice *100)
+      const newData = [...prevData];
+      newData[index] = newRow;
+      return newData;
+    });
+
   }
 
   useEffect(() => {
@@ -68,12 +91,12 @@ export default function TableInvoice() {
     const newGst = tax.reduce((acc, currentElement) => acc + currentElement.taxPrice, 0);
     console.log(newGst, "1111 check kro")
     setsubTotal(newsubTotal);
-    console.log(subTotal, "hello check subtotal check")
-    setGst(newsubTotal * newGst);
-    console.log(gst, "1111 hello check gst")
+
+    setGst((newsubTotal * newGst));
+    console.log(gst, subTotal, "1111 gst, subTotal")
 
     // setTax(updateTaxPrice);
-    setpc((newsubTotal * 20) / 100);
+    // setpc((newsubTotal *0.2));
 
     setGrandTotal(gst + newsubTotal)
 
@@ -126,10 +149,13 @@ export default function TableInvoice() {
           <span className='subtotalValue'>₹ {subTotal}</span>
         </div>
 
-        {tax.map((taxRow) => (
+        {tax.map((taxRow, index) => (
           <div className="tax">
-            <div className="taxName" contentEditable="true">{taxRow.taxName}</div>
-            <span className='taxValue'>₹{pc}
+            <div className="taxName">{taxRow.taxName}
+            <span>(</span>
+              <span contentEditable="true" 
+              onBlur={(e) => handleChangeTax(index, 'taxValue', e.target.textContent)} >{taxRow.taxValue}</span>%)<span></span></div>
+            <span className='taxValue'>₹{taxRow.taxPrice *100}
               <span className='remove' onClick={deleteTaxRows}>X</span></span>
           </div>
         ))}
