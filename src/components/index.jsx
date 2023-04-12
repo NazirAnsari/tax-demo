@@ -1,6 +1,7 @@
 import React from 'react'
 import './textInvoice.css';
-import TableInvoice from './tableInvoice';
+// import TableInvoice from './tableInvoice';
+import Table from './table';
 
 export default function Index() {
 
@@ -52,9 +53,10 @@ export default function Index() {
             <span>Many Thanks</span> <br />
             <span>Mayank Saraswat/Nazir Ansari</span>
 
-          </div>
+          </div><hr/>
 
-          <TableInvoice />
+          {/* <TableInvoice /> */}
+          <Table/>
           <div className="greetings"  contentEditable="true">
             <span>Many thanks! I look forward to doing business with you again in due course. </span>
             <br /><span></span>

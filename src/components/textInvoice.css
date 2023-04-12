@@ -122,6 +122,10 @@ table {
     border-spacing: 0;
 }
 
+input{
+    border:none
+}
+
 table .number {
     width: 20px;
 }

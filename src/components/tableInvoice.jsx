@@ -26,10 +26,12 @@ export default function TableInvoice() {
   const handleChange = (index, key, value) => {
     if (key != "itemDescription") {
       var val = parseInt(value)
+      
     }
     else {
       val = value;
     }
+    validInput(key, value);
 
     setTableData((prevData) => {
       const newRow = { ...prevData[index], [key]: val };
@@ -43,8 +45,6 @@ export default function TableInvoice() {
       return newData;
     });
   };
-
-
 
   // useEffect(()=>{
   //   const newTotal = tableData.reduce((acc, cur) => acc + cur.quantity * cur.unitPrice , 0);
@@ -88,14 +88,19 @@ export default function TableInvoice() {
     //     // return tax;
     //   }
     // )
-     
-
     // setTax();
 
     setGrandTotal(gst+newsubTotal)
     console.log(grandTotal,"check grandtotal")
 
   });
+
+  function validInput(key, value){
+    if(key == "itemDescription" && itemDescription.value.length == 0){
+      alert("Please enter a valid item name")
+      return
+    }
+  }
 
   return (
     <>
