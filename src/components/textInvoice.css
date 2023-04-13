@@ -21,6 +21,7 @@
     padding: 15px;
     margin-left: 30px;
     text-align: center;
+    position: fixed;
 }
 
 .rightBoxDownloadBtn {
@@ -112,10 +113,6 @@
     margin-left: 10px;
 }
 
-.invoiceTable {
-    margin-top: 48px;
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
@@ -126,25 +123,12 @@ input{
     border:none
 }
 
-table .number {
-    width: 20px;
-}
-
-table .description {
-    width: auto;
-}
-
 table thead tr th {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 20px;
     font-weight: 600;
     text-align: left;
     padding-bottom: 10px;
-}
-
-.invoice-table th {
-    padding: 8px;
-    width: 110px;
 }
 
 td {
@@ -154,7 +138,6 @@ td {
 
 .remove {
     color: red;
-    margin-left: 8px;
     cursor: pointer;
     border: none;
     background-color: white;
@@ -169,76 +152,22 @@ td {
     background-color: white;
 }
 
-.invoiceTotal {
-    margin-bottom: 20px;
-    margin-top: 24px;
-}
-
-.subtotal{
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-.subtotalLeft {
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 600;
-    position: relative;
-    width: 82%;
-    display: inline-block;
-}
-.subtotalValue {
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 600;
-    position: relative;
-}
-
-.tax{
-    margin-bottom: 5px;
-    width: 100%;
-}
-
-.taxName{
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 600;
-    position: relative;
-    width: 82%;
-    display: inline-block;  
-}
-
-.taxValue{
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 600;
-    position: relative;
-}
-
-.grandTotal{
-    margin-top: 10px;
-    width: 100%;
-}
-
-.invoiceGrandTotal{
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 600;
-    position: relative;
-    width: 80%;
-    display: inline-block;  
-}
-.grandTotal span{
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 600;
-    position: relative;
-}
-
 .greetings{
     margin-top: 24px;
 }
 
-th{
-    border-bottom: 1px solid rgb(76, 73, 73);
+input{
+    width:80%;
+}
+
+@media  screen and (max-width: 768px) {
+    .leftSideBox, table{
+        width: 90%;
+        display: block;
+    }
+    .main-div {
+        width: 90%;
+        margin: auto;
+        font-family: none;
+    }
 }
