@@ -129,6 +129,7 @@ table thead tr th {
     font-weight: 600;
     text-align: left;
     padding-bottom: 10px;
+    background-color: lightgrey;
 }
 
 td {

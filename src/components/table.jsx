@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import { v4 as uuid } from 'uuid';
-
 function Table(props) {
 
   return (
@@ -66,9 +63,7 @@ function Table(props) {
             <button className="addNewItem" onClick={() => props.addItem()}>+ Add Line Item</button>
           </tr>
           <tr>
-            <td contentEditable="true"><b>Sub total</b></td>
-            <td></td>
-            <td></td><td></td>
+            <td contentEditable="true" colSpan={4}><b>Sub total</b></td>
             <td><b>₹ {props.subTotal}</b></td>
           </tr>
         </tfoot>

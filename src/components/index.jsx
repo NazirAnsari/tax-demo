@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid';
 import './textInvoice.css';
 import Table from './table';
+import axios from 'axios';
 
 export default function Index() {
+
   const [items, setItems] = useState([{
     itemID: uuid(),
     itemDescription: "item",
@@ -53,7 +55,6 @@ export default function Index() {
   const handleItemChange = (e, changeItemID) => {
     const fieldName = e.target.name;
     const value = e.target.value;
-    validateInput(fieldName, value);
     setItems(
       items.map((item) => {
         if (item.itemID == changeItemID) {
@@ -110,22 +111,38 @@ const handleTaxChange = (e, changeTaxID) => {
         return tax;
       })
     );
-}
+} 
 
-function validateInput(fieldName, value){
-  if(fieldName == "itemDescription" && value.length==0){
-    alert ("Can't be null");
-    return false;
+ const downloadPdf = async()=>{
+  const data={
+    "advisoryCompanyName" : document.getElementsByClassName('companyName')[0].innerHTML,
+    "invoice Heading" : document.getElementsByClassName('invoiceEditableContent2')[0].innerHTML,
+    "address" : document.getElementsByClassName('address')[0].innerText,
+    "contactNo" : document.getElementsByClassName('mobileNo')[0].innerHTML,
+    "email" : document.getElementsByClassName('email')[0].innerHTML, 
+    "date": document.getElementsByClassName('date')[0].innerText,
+    "invoiceID": document.getElementsByClassName('invoiceID')[0].innerText,
+    "poNumber" : document.getElementsByClassName('clientInvoiceDetails')[0].innerText,
+    "clientName" : document.getElementsByClassName('clientName')[0].innerText,
+    "clientCompanyName" : document.getElementsByClassName('clientCompanyName')[0].innerText,
+    "userMessage" : document.getElementsByClassName('invoiceMessage')[0].innerText,
+    "items":items,
+    "tax": taxes,
+    "subTotalName":document.getElementsByClassName('subTotalName')[0].innerText,
+    "subTotal": subTotal,
+    "totalWithTaxName": document.getElementsByClassName('totalWithTaxName')[0].innerText,
+    "totalWithTax": totalWithTax,
+    "conclusionMessage": document.getElementsByClassName('greetings')[0].innerText
   }
-  if(fieldName =="quantity" && value.length==0){
-    alert("Can't be null");
-    return false;
-  }
-  if(fieldName =="unitPrice" && value.length==0){
-    alert("Can't be null");
-    return false;
-  }
-}
+
+//  await axios
+//   .post("/insertData", {data})
+//   .then((response) => {
+//     console.log(response)
+//   })
+
+  console.log(data,Object.keys(data).length);
+ }
 
   return (
     <div className='main-div'>
@@ -144,50 +161,52 @@ function validateInput(fieldName, value){
                 <div contentEditable="true">Your town</div>
                 <div contentEditable="true">Address Line 3</div>
               </div>
-              {/* <p>{console.log(document.getElementsByClassName("address")[0].innerHTML)}</p> */}
+
               <div className='clientInvoiceDetails textRight'>
-                <div contentEditable="true">06 April 2023</div>
-                <div contentEditable="true">Invoice #2334889</div>
+                <div contentEditable="true" className='date'>06 April 2023</div>
+                <div contentEditable="true" className='invoiceID'>Invoice #2334889</div>
                 <div contentEditable="true">PO 456001200</div>
               </div>
             </div>
 
             <div className="personalInfo">
               <div className="personalInfoLeftBox">
-                <div contentEditable="true">(123)456789</div>
-                <div contentEditable="true">email@yourcompany.com</div>
+                <div contentEditable="true" className='mobileNo'>(123)456789</div>
+                <div contentEditable="true" className='email'>email@yourcompany.com</div>
               </div>
 
               <div className="personalInfoRightBox textRight">
-                <div contentEditable="true">Att. Ms. Jane Doe</div>
-                <div contentEditable="true">Client Company Name</div>
+                <div contentEditable="true" className='clientName'>Att. Ms. Jane Doe</div>
+                <div contentEditable="true" className='clientCompanyName'>Client Company Name</div>
               </div>
             </div>
 
-          </div><br/>
+          </div>
           <hr/>
+          <br />
           <div className="invoiceMessage" contentEditable="true">
             <span >Dear Ms. Jane Doe</span> <br /> <br />
             <span>Please find below a cost breakdown for the recent work completed . Please make payment
               convininence, and do not hesitate to contact me with any questions.
             </span>
             <br /><br />
-            <span>Many Thanks,</span> <br />
+            <span>Many Thanks</span> <br />
             <span>Mayank Saraswat/Nazir Ansari</span>
 
-          </div><br/><hr/>
+          </div>
+          <br />
+          <br />
 
-          <Table items= {items}
-                 taxes= {taxes}
-                 subTotal= {subTotal}
-                 totalWithTax = {totalWithTax}
-                 addItem = {addItem}
-                 handleItemChange = {handleItemChange}
-                 deleteItem = {deleteItem}
-                 addTax = {addTax}
-                 deleteTax = {deleteTax}
-                 handleTaxChange = {handleTaxChange}
-                 />
+          <Table key="child1" items={items}  
+           taxes={taxes} addItem={addItem}
+           handleItemChange={handleItemChange}
+           deleteItem={deleteItem}
+           addTax={addTax}
+           deleteTax={deleteTax}
+           handleTaxChange={handleTaxChange}
+           subTotal={subTotal}
+           totalWithTax={totalWithTax}/>
+
           <div className="greetings"  contentEditable="true">
             <span>Many thanks! I look forward to doing business with you again in due course. </span>
             <br /><span></span>
@@ -197,7 +216,7 @@ function validateInput(fieldName, value){
         </div>
 
         <div className="rightSideBox">
-          <button className='rightBoxDownloadBtn'>Download this invoice</button>
+          <button className='rightBoxDownloadBtn' onClick={()=>downloadPdf()}>Download this invoice</button>
         </div>
       </div>
     </div>
